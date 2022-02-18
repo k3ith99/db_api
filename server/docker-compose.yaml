@@ -1,0 +1,31 @@
+version: '3'
+services:
+  server:
+    image: node:12.18.4
+    working_dir: /code
+    ports:
+      - 3000:3000
+    environment:
+      - DB_NAME=reviews
+      - DB_CONNECTION=mongodb://lytical:password@db:27017
+    depends_on: 
+      - db
+    volumes:
+      - type: bind
+        source: ./api
+        target: /code
+    command: bash -c "npm install && node server.js"
+  
+  db:
+    image: mongo:latest
+    volumes: 
+      - "dbdata:/var/lib/mongodb/data"
+      - "./db/reviews.js:/docker-entrypoint-initdb.d/reviews.js:ro"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=lytical
+      - MONGO_INITDB_DATABASE=reviews
+      - MONGO_INITDB_ROOT_PASSWORD=password
+volumes:
+  dbdata:
+
+

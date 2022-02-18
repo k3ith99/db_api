@@ -1,4 +1,4 @@
-db = connect("localhost:27017/review")
+db = connect("localhost:27017/reviews")
 
 db.reviews.insertMany([
     {name: "AC Origins", year: 2017, rating: 8},
